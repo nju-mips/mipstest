@@ -142,6 +142,11 @@ void resumed_intr(values_t value) {
   for (int i = 0; i < 20; i++) { asm volatile("nop"); }
 }
 
+void cache_flush(uint32_t addr) {
+  asm volatile("cache 0x10, %0" ::"m"(*(uint32_t *)addr));
+  asm volatile("cache 0x15, %0" ::"m"(*(uint32_t *)addr));
+}
+
 int main() {
   uint32_t addrs[] = {
       0xbfc00200,
@@ -161,6 +166,9 @@ int main() {
     writel(addrs[i] + 8, 0x40805800);
     /* eret */
     writel(addrs[i] + 12, 0x42000018);
+
+    for (int j = 0; j < 16; j += 4)
+      cache_flush(addrs[i] + j);
   }
 
   for (int i = 0; i < 4; i++) {
