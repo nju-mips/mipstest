@@ -1,0 +1,48 @@
+OBJ_DIR := build
+SRC_DIR := src
+CFILES  != find $(SRC_DIR) -name "*.c"
+SFILES  != find $(SRC_DIR) -name "*.S"
+COBJS   := $(patsubst %.c, $(OBJ_DIR)/%.o, $(CFILES))
+SOBJS   := $(patsubst %.S, $(OBJ_DIR)/%.o, $(SFILES))
+OBJS    := $(COBJS) $(SOBJS)
+APP     := $(OBJ_DIR)/$(NAME)-mips32-npc
+
+CFLAGS += -c -MMD -fno-builtin -nostdlib
+CFLAGS += -EL -O2 -mno-abicalls -g -Iinclude -I.
+
+.DEAULT_GOAL = all
+
+all: $(APP).elf $(APP).bin $(APP).txt $(APP).bin.txt
+
+$(OBJ_DIR)/%.o: %.S
+	@mkdir -p $(@D)
+	@mips-linux-gnu-gcc $(CFLAGS) $< -o $@
+	@echo + $<
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@mips-linux-gnu-gcc $(CFLAGS) $< -o $@
+	@echo + $<
+
+-include $(OBJS:.o=.d)
+
+$(APP).elf: $(OBJ_DIR)/src/start.o $(filter-out $(OBJ_DIR)/src/start.o,$(OBJS))
+	@echo + $@
+	@mips-linux-gnu-ld --gc-sections -EL -T ./loader.ld -e _start -o $@ --start-group $^ --end-group
+
+$(APP).bin: $(APP).elf
+	@echo + $@
+	@mips-linux-gnu-objcopy --set-section-flags .bss=alloc,contents -O binary $< $@
+
+$(APP).txt: $(APP).elf
+	@echo + $@
+	@mips-linux-gnu-objdump -D $< > $@
+	@truncate -s %8 $@
+
+$(APP).bin.txt: $(APP).bin
+	@echo + $@
+	@hexdump -ve '2/ "%08x " "\n"' $< | \
+	  awk '{print $$2$$1}' > $@
+
+clean:
+	rm -rf $(OBJ_DIR)
