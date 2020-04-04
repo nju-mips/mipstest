@@ -92,6 +92,15 @@ typedef struct {
   uint8_t ERL : 1;
 } values_t;
 
+extern uint32_t ex_begin;
+extern uint32_t ex_end;
+register int k1 asm("k1");
+
+void nemu_assert(int cond) {
+  if (!cond)
+    writel(0xb0000000, 1);
+}
+
 void normal_intr(values_t value) {
   uint32_t c0_status_val = read_c0_status();
   uint32_t c0_cause_val = read_c0_cause();
@@ -158,14 +167,8 @@ int main() {
   };
 
   for (int i = 0; i < 6; i++) {
-    /* mfc0 k0, status */
-    writel(addrs[i] + 0, 0x401a6000);
-    /* mfc0 k1, cause */
-    writel(addrs[i] + 4, 0x401b6800);
-    /* mtc0 $zero, $c0_compare */
-    writel(addrs[i] + 8, 0x40805800);
-    /* eret */
-    writel(addrs[i] + 12, 0x42000018);
+    for (uint32_t *p = &ex_begin; p < &ex_end; p ++)
+      writel(addrs[i] + 4 * (p - &ex_begin), *p);
 
     for (int j = 0; j < 16; j += 4)
       cache_flush(addrs[i] + j);
@@ -173,12 +176,16 @@ int main() {
 
   for (int i = 0; i < 4; i++) {
     values_t *p = (void *)&i;
+    k1 = 0;
     normal_intr(*p);
+    nemu_assert(k1 == 1);
   }
 
   for (int i = 0; i < 32; i++) {
     values_t *p = (void *)&i;
+    k1 = 0;
     resumed_intr(*p);
+    nemu_assert(k1 == 1);
   }
   return 0;
 }
