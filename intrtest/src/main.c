@@ -97,8 +97,7 @@ extern uint32_t ex_end;
 register int k1 asm("k1");
 
 void nemu_assert(int cond) {
-  if (!cond)
-    writel(0xb0000000, 1);
+  if (!cond) writel(0xb0000000, 1);
 }
 
 void normal_intr(values_t value) {
@@ -167,11 +166,46 @@ void ex_intr_test(values_t value) {
   write_c0_status(c0_status_val);
   write_c0_cause(c0_cause_val);
 
-  for (int step = 0; step < 20; step ++) {
+  for (int step = 0; step < 40; step++) {
     uint32_t count = read_c0_count();
     write_c0_compare(count + step);
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 40; i++) {
       asm volatile("break; syscall; break; syscall;");
+    }
+  }
+}
+
+void ds_intr_test(values_t value) {
+  uint32_t c0_status_val = read_c0_status();
+  uint32_t c0_cause_val = read_c0_cause();
+
+  cp0_status_t *c0_status = (void *)&c0_status_val;
+  cp0_cause_t *c0_cause = (void *)&c0_cause_val;
+
+  c0_status->IE = 1;
+  c0_status->EXL = 0;
+  c0_status->ERL = 0;
+  c0_status->IM = 0xFF;
+  c0_status->BEV = value.BEV;
+  c0_cause->IV = value.IV;
+  write_c0_status(c0_status_val);
+  write_c0_cause(c0_cause_val);
+
+  for (int step = 0; step < 40; step++) {
+    uint32_t count = read_c0_count();
+    write_c0_compare(count + step);
+    for (int i = 0; i < 40; i++) {
+      asm volatile(
+          "beqz $zero, 1f;"
+          "nop;"
+          "bnez $zero, 1f;"
+          "nop;"
+          "1:"
+          "beqz $zero, 2f;"
+          "nop;"
+          "bnez $zero, 2f;"
+          "nop;"
+          "2:");
     }
   }
 }
@@ -192,7 +226,7 @@ int main() {
   };
 
   for (int i = 0; i < 6; i++) {
-    for (uint32_t *p = &ex_begin; p < &ex_end; p ++)
+    for (uint32_t *p = &ex_begin; p < &ex_end; p++)
       writel(addrs[i] + 4 * (p - &ex_begin), *p);
 
     for (int j = 0; j < 16; j += 4)
@@ -213,10 +247,17 @@ int main() {
     nemu_assert(k1 == 1);
   }
 
-  for (int i = 0; i < 32; i++) {
+  for (int i = 0; i < 4; i++) {
     values_t *p = (void *)&i;
     k1 = 0;
     ex_intr_test(*p);
+    nemu_assert(k1 == 1);
+  }
+
+  for (int i = 0; i < 4; i++) {
+    values_t *p = (void *)&i;
+    k1 = 0;
+    ds_intr_test(*p);
     nemu_assert(k1 == 1);
   }
   return 0;
