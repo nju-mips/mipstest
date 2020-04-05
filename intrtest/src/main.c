@@ -151,6 +151,31 @@ void resumed_intr(values_t value) {
   for (int i = 0; i < 20; i++) { asm volatile("nop"); }
 }
 
+void ex_intr_test(values_t value) {
+  uint32_t c0_status_val = read_c0_status();
+  uint32_t c0_cause_val = read_c0_cause();
+
+  cp0_status_t *c0_status = (void *)&c0_status_val;
+  cp0_cause_t *c0_cause = (void *)&c0_cause_val;
+
+  c0_status->IE = 1;
+  c0_status->EXL = 0;
+  c0_status->ERL = 0;
+  c0_status->IM = 0xFF;
+  c0_status->BEV = value.BEV;
+  c0_cause->IV = value.IV;
+  write_c0_status(c0_status_val);
+  write_c0_cause(c0_cause_val);
+
+  for (int step = 0; step < 20; step ++) {
+    uint32_t count = read_c0_count();
+    write_c0_compare(count + step);
+    for (int i = 0; i < 20; i++) {
+      asm volatile("break; syscall; break; syscall;");
+    }
+  }
+}
+
 void cache_flush(uint32_t addr) {
   asm volatile("cache 0x10, %0" ::"m"(*(uint32_t *)addr));
   asm volatile("cache 0x15, %0" ::"m"(*(uint32_t *)addr));
@@ -185,6 +210,13 @@ int main() {
     values_t *p = (void *)&i;
     k1 = 0;
     resumed_intr(*p);
+    nemu_assert(k1 == 1);
+  }
+
+  for (int i = 0; i < 32; i++) {
+    values_t *p = (void *)&i;
+    k1 = 0;
+    ex_intr_test(*p);
     nemu_assert(k1 == 1);
   }
   return 0;

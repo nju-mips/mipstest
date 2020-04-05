@@ -13,9 +13,19 @@ start:
     nop
 
 ex_begin:
+    mtc0 $zero, $11  # compare
+    mfc0 $k0, $14    # epc
     mfc0 $k0, $12    # status
     mfc0 $k0, $13    # cause
-    li $k1, 1
-    mtc0 $zero, $11  # compare
+
+    andi $k0, $k0, 0x7c
+    beqz $k0, 2f     # ex code is intr
+    nop
+
+1:  mfc0 $k0, $14    # epc
+    addiu $k0, $k0, 4
+    mtc0 $k0, $14
+
+2:  li $k1, 1
     eret
 ex_end:
