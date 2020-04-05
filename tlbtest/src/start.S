@@ -59,6 +59,12 @@ test_finish:
  *  exception handle
  */
 .org 0x200
+    mfc0 k0, c0_entryhi
+    mfc0 k0, c0_entrylo0
+    mfc0 k0, c0_entrylo1
+    mfc0 k0, c0_epc
+    mfc0 k0, c0_status
+    mfc0 k0, c0_cause
 tlb_refill:
     mfc0 k0, c0_cause
     andi k0, k0, 0x7c # 6..2
@@ -133,7 +139,14 @@ fetch_refill_ex:
     .set mips32
     eret
     .set mips0
+
 .org 0x380
+    mfc0 k0, c0_entryhi
+    mfc0 k0, c0_entrylo0
+    mfc0 k0, c0_entrylo1
+    mfc0 k0, c0_epc
+    mfc0 k0, c0_status
+    mfc0 k0, c0_cause
 1:  
     mfc0 k0, c0_cause
     andi k0, k0, 0x7c # 6..2
