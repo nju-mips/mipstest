@@ -2,7 +2,7 @@
 #include <regdef.h>
 #include <cpu_cde.h>
 
-#define TEST_NUM 97
+#define TEST_NUM 101
 
 #define EXT_8TO16(t2, t3) \
 
@@ -518,6 +518,14 @@ inst_test:
     jal n96_ll_test             #ll test
     nop
     jal n97_sc_test             #ll test
+    nop
+    jal n98_madd_test           #madd test
+    nop
+    jal n99_maddu_test          #maddu test
+    nop
+    jal n100_msub_test          #msub test
+    nop
+    jal n101_msubu_test         #msubu test
     nop
 
 test_end:
