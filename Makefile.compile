@@ -7,7 +7,7 @@ SOBJS   := $(patsubst %.S, $(OBJ_DIR)/%.o, $(SFILES))
 OBJS    := $(COBJS) $(SOBJS)
 APP     := $(OBJ_DIR)/$(NAME)-mips32-npc
 
-CFLAGS += -c -O2 -EL -MMD -march=mips32
+CFLAGS += -c -O2 -EL -MMD
 CFLAGS += -fno-pic -fno-builtin -nostdlib
 CFLAGS += -mno-llsc -mno-imadd -mno-mad
 CFLAGS += -mno-abicalls -g -Iinclude -I.
