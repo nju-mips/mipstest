@@ -35,10 +35,14 @@ main:
 	li  s3, 0
 
 inst_test:
+#if 0
     jal n1_ll_test       # ll test
     nop
     jal n2_sc_test       # sc test
     nop
+#else
+    addiu s3, s3, 2
+#endif
     jal n3_madd_test     # madd test
     nop
     jal n4_maddu_test    # maddu test
@@ -57,7 +61,6 @@ inst_test:
     nop
     jal n11_ext_test     # ext
     nop
-#if HAS_FPU
     jal n12_mfc1_test    # mfc1
     nop
     jal n13_mtc1_test    # mtc1
@@ -90,9 +93,6 @@ inst_test:
     nop
     jal n27_sqrt_d_test  # sqrt.d
     nop
-#else
-    addiu s3, s3, 16
-#endif
 
 test_end:
     LI  (s0, TEST_NUM)

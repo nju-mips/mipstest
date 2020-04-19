@@ -160,3 +160,49 @@ inst_error:
   li t2, res;                        \
   bne t2, t1, inst_error;            \
   nop
+
+#define TEST_MFC1(in_a, ref) \
+  li t0, in_a;               \
+  mtc1 t0, $1;               \
+  nop;                       \
+  nop;                       \
+  nop;                       \
+  mfc1 v0, $1;               \
+  nop;                       \
+  nop;                       \
+  nop;                       \
+  li s5, ref;                \
+  bne v0, s5, inst_error;    \
+  nop
+
+#define TEST_MTC1(in_a, ref) \
+  li t0, in_a;               \
+  mtc1 t0, $1;               \
+  nop;                       \
+  nop;                       \
+  nop;                       \
+  mfc1 v0, $1;               \
+  nop;                       \
+  nop;                       \
+  nop;                       \
+  li s5, ref;                \
+  bne v0, s5, inst_error;    \
+  nop
+
+#define TEST_LWC1(                              \
+    data, base_addr, offset, offset_align, ref) \
+  LI(t1, data);                                 \
+  LI(t0, base_addr);                            \
+  LI(v1, ref);                                  \
+  sw t1, offset_align(t0);                      \
+  addiu a0, t0, 4;                              \
+  addiu a1, t0, -8;                             \
+  sw a0, offset_align(a0);                      \
+  sw a1, offset_align(a1);                      \
+  lwc1 $1, offset(t0);                          \
+  mfc1 v0, $1;                                  \
+  lw a1, offset_align(a0);                      \
+  lw a0, offset_align(a1);                      \
+  lw a2, offset_align(a1);                      \
+  bne v0, v1, inst_error;                       \
+  nop
