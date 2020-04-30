@@ -1,4 +1,4 @@
-NAME := insttest-r2
-CFLAGS := -mno-abicalls -fno-plt -fno-pic 
-CFLAGS += -mxgot -static -march=mips32r2
+NAME := fputest
+CFLAGS := -D_KERNEL
+CFLAGS += -mno-abicalls -fno-plt -fno-pic 
 include $(MIPS_TEST_HOME)/Makefile.compile

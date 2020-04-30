@@ -2,15 +2,12 @@
 #include <regdef.h>
 #include <inst_test.h>
 
-LEAF(n9_wsbh_test)
+LEAF(n15_sqrt_s_test)
     .set noreorder
     addiu s0, s0 ,1
     li  s2, 0x0
 ###test inst
-    TEST_WSBH(0x287b78ef, 0x7b28ef78)
-    TEST_WSBH(0x181e0b04, 0x1e18040b)
-    TEST_WSBH(0x79025ad8, 0x0279d85a)
-    TEST_WSBH(0x503c59fc, 0x3c50fc59)
+    nop
 ###detect exception
     bne s2, zero, inst_error
     nop
@@ -19,4 +16,5 @@ LEAF(n9_wsbh_test)
 ### return
     jr ra
     nop
-END(n9_wsbh_test)
+END(n15_sqrt_s_test)
+

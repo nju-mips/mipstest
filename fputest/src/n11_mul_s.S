@@ -2,7 +2,7 @@
 #include <regdef.h>
 #include <inst_test.h>
 
-LEAF(n16_ldc1_test)
+LEAF(n11_mul_s_test)
     .set noreorder
     addiu s0, s0 ,1
     li  s2, 0x0
@@ -16,5 +16,5 @@ LEAF(n16_ldc1_test)
 ### return
     jr ra
     nop
-END(n16_ldc1_test)
+END(n11_mul_s_test)
 

@@ -14,8 +14,6 @@
 	.set   noreorder
 	.globl _start
 _start:
-    li sp, DADDR(A000)
-    li gp, 0x1A000
 	j main
 	nop
 
@@ -29,69 +27,41 @@ _start:
 
 main:
 	.set noreorder
-    .cprestore
-
     lui s0, 0          ## initial run number
 	li  s3, 0
 
 inst_test:
-#if 0
-    jal n1_ll_test       # ll test
+    jal n1_mfc1_test    # mfc1
     nop
-    jal n2_sc_test       # sc test
+    jal n2_mtc1_test    # mtc1
     nop
-#else
-    addiu s3, s3, 2
-#endif
-    jal n3_madd_test     # madd test
+    jal n3_lwc1_test    # lwc1
     nop
-    jal n4_maddu_test    # maddu test
+    jal n4_swc1_test    # swc1
     nop
-    jal n5_msub_test     # msub test
+    jal n5_ldc1_test    # ldc1
     nop
-    jal n6_msubu_test    # msubu test
+    jal n6_sdc1_test    # sdc1
     nop
-    jal n7_seb_test      # seb
+    jal n7_add_s_test   # add.s
     nop
-    jal n8_seh_test      # seh
+    jal n8_add_d_test   # add.d
     nop
-    jal n9_wsbh_test     # wsbh
+    jal n9_sub_s_test   # sub.s
     nop
-    jal n10_ins_test     # ins
+    jal n10_sub_d_test   # sub.d
     nop
-    jal n11_ext_test     # ext
+    jal n11_mul_s_test   # mul.s
     nop
-    jal n12_mfc1_test    # mfc1
+    jal n12_mul_d_test   # mul.d
     nop
-    jal n13_mtc1_test    # mtc1
+    jal n13_div_s_test   # div.s
     nop
-    jal n14_lwc1_test    # lwc1
+    jal n14_div_d_test   # div.d
     nop
-    jal n15_swc1_test    # swc1
+    jal n15_sqrt_s_test  # sqrt.s
     nop
-    jal n16_ldc1_test    # ldc1
-    nop
-    jal n17_sdc1_test    # sdc1
-    nop
-    jal n18_add_s_test   # add.s
-    nop
-    jal n19_add_d_test   # add.d
-    nop
-    jal n20_sub_s_test   # sub.s
-    nop
-    jal n21_sub_d_test   # sub.d
-    nop
-    jal n22_mul_s_test   # mul.s
-    nop
-    jal n23_mul_d_test   # mul.d
-    nop
-    jal n24_div_s_test   # div.s
-    nop
-    jal n25_div_d_test   # div.d
-    nop
-    jal n26_sqrt_s_test  # sqrt.s
-    nop
-    jal n27_sqrt_d_test  # sqrt.d
+    jal n16_sqrt_d_test  # sqrt.d
     nop
 
 test_end:
