@@ -3,7 +3,7 @@
 #include <inst_test.h>
 
 
-LEAF(n76_pref)
+LEAF(n76_pref_test)
     .set noreorder
 # should not raise exceptions
 start:
@@ -49,4 +49,4 @@ start:
 ### return
     jr ra
     nop
-END(n76_pref)
+END(n76_pref_test)
