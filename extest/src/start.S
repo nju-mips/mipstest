@@ -2,7 +2,7 @@
 #include <regdef.h>
 #include <cpu_cde.h>
 
-#define TEST_NUM 101
+#define TEST_NUM 31
 
 #define EXT_8TO16(t2, t3) \
 
@@ -319,214 +319,74 @@ main:
 	li  s3, 0
 
 inst_test:
-    jal n1_lui_test    #lui
+    jal n1_syscall_ex_test       #syscall
     nop
-    jal n2_addu_test   #addu
+    jal n2_break_ex_test       #break ex
     nop
-    jal n3_addiu_test  #addiu
+    jal n3_add_ov_ex_test      #add ov ex
     nop
-    jal n4_beq_test    #beq
+    jal n4_addi_ov_ex_test     #addi ov ex
     nop
-    jal n5_bne_test    #bne
+    jal n5_sub_ov_ex_test      #sub ov ex
     nop
-    jal n6_lw_test     #lw
+    jal n6_lw_adel_ex_test     #lw adel ex
     nop
-    jal n7_or_test     #or
+    jal n7_lh_adel_ex_test     #lh adel ex
     nop
-    jal n8_slt_test    #slt
+    jal n8_lhu_adel_ex_test    #lhu adel ex
     nop
-    jal n9_slti_test   #slti
+    jal n9_sw_ades_ex_test     #sw ades ex
     nop
-    jal n10_sltiu_test #sltiu
+    jal n10_sh_ades_ex_test     #sh ades ex
     nop
-    jal n11_sll_test   #sll
+    jal n11_ft_adel_ex_test     #ft adel ex
     nop
-    jal n12_sw_test    #sw
+    jal n12_ri_ex_test          #ri ex
     nop
-    jal n13_j_test       #j
+    jal n13_soft_int_ex_test    #soft int ex
     nop
-    jal n14_jal_test     #jal
+    jal n14_beq_ds_ex_test      #beq ds ex
     nop
-    jal n15_jr_test      #jr
+    jal n15_bne_ds_ex_test      #bne ds ex
     nop
-    jal n16_beq_ds_test  #beq delay slot
+    jal n16_bgez_ds_ex_test     #bgez ds ex
     nop
-    jal n17_bne_ds_test  #bne delay slot
+    jal n17_bgtz_ds_ex_test     #bgtz ds ex
     nop
-    jal n18_j_ds_test    #j delay slot
+    jal n18_blez_ds_ex_test     #blez ds ex
     nop
-    jal n19_jal_ds_test  #jal delay slot
+    jal n19_bltz_ds_ex_test     #bltz ds ex
     nop
-    jal n20_jr_ds_test   #jr delay slot
+    jal n20_bltzal_ds_ex_test   #bltzal ds ex
     nop
-    jal n21_add_test   #add
+    jal n21_bgezal_ds_ex_test   #bgezal ds ex
     nop
-    jal n22_addi_test   #addi
+    jal n22_j_ds_ex_test        #j ds ex
     nop
-    jal n23_sub_test   #sub
+    jal n23_jal_ds_ex_test      #jal ds ex
     nop
-    jal n24_subu_test   #subu
+    jal n24_jr_ds_ex_test       #jr ds ex
     nop
-    jal n25_sltu_test   #sltu
+    jal n25_jalr_ds_ex_test     #jalr ds ex
     nop
-    jal n26_and_test   #and
+    jal n26_branch_prediction   #branch prediction
     nop
-    jal n27_andi_test   #andi
+    jal n27_ds_cache_miss       #ds_cache_miss
     nop
-    jal n28_nor_test   #nor
-    nop
-    jal n29_ori_test   #ori
-    nop
-    jal n30_xor_test   #xor
-    nop
-    jal n31_xori_test   #xori 
-    nop
-    jal n32_sllv_test   #sllv
-    nop
-    jal n33_sra_test   #sra
-    nop
-    jal n34_srav_test   #srav
-    nop
-    jal n35_srl_test   #srl
-    nop
-    jal n36_srlv_test   #srlv
-    nop
-    jal n37_bgez_test   #bgez
-    nop
-    jal n38_bgtz_test   #bgtz
-    nop
-    jal n39_blez_test   #blez
-    nop
-    jal n40_bltz_test   #bltz
-    nop
-    jal n41_bltzal_test   #bltzal
-    nop
-    jal n42_bgezal_test   #bgezal
-    nop
-    jal n43_jalr_test   #jalr
-    nop
-    jal n44_div_test   #div
-    nop
-    jal n45_divu_test   #divu
-    nop
-    jal n46_mult_test   #mult
-    nop
-    jal n47_multu_test   #multu
-    nop
-    jal n48_mfhi_test   #mfhi
-    nop
-    jal n49_mflo_test   #mflo
-    nop
-    jal n50_mthi_test   #mthi
-    nop
-    jal n51_mtlo_test   #mtlo
-    nop
-    jal n52_bgez_ds_test   #bgez delay slot
-    nop
-    jal n53_bgtz_ds_test   #bgtz delay slot
-    nop
-    jal n54_blez_ds_test   #blez delay slot
-    nop
-    jal n55_bltz_ds_test   #bltz delay slot
-    nop
-    jal n56_bltzal_ds_test   #bltzal delay slot
-    nop
-    jal n57_bgezal_ds_test   #bgezal delay slot
-    nop
-    jal n58_jalr_ds_test   #jalr delay slot
-    nop
-    jal n59_lb_test        #lb
-    nop
-    jal n60_lbu_test       #lbu
-    nop
-    jal n61_lh_test        #lh
-    nop
-    jal n62_lhu_test       #lhu
-    nop
-    jal n63_sb_test        #sb
-    nop
-    jal n64_sh_test        #sh
-    nop
-    jal n65_syscall_ex_test       #syscall
-    nop
-    jal n66_break_ex_test       #break ex
-    nop
-    jal n67_add_ov_ex_test      #add ov ex
-    nop
-    jal n68_addi_ov_ex_test     #addi ov ex
-    nop
-    jal n69_sub_ov_ex_test      #sub ov ex
-    nop
-    jal n70_lw_adel_ex_test     #lw adel ex
-    nop
-    jal n71_lh_adel_ex_test     #lh adel ex
-    nop
-    jal n72_lhu_adel_ex_test    #lhu adel ex
-    nop
-    jal n73_sw_ades_ex_test     #sw ades ex
-    nop
-    jal n74_sh_ades_ex_test     #sh ades ex
-    nop
-    jal n75_ft_adel_ex_test     #ft adel ex
-    nop
-    jal n76_ri_ex_test          #ri ex
-    nop
-    jal n77_soft_int_ex_test    #soft int ex
-    nop
-    jal n78_beq_ds_ex_test      #beq ds ex
-    nop
-    jal n79_bne_ds_ex_test      #bne ds ex
-    nop
-    jal n80_bgez_ds_ex_test     #bgez ds ex
-    nop
-    jal n81_bgtz_ds_ex_test     #bgtz ds ex
-    nop
-    jal n82_blez_ds_ex_test     #blez ds ex
-    nop
-    jal n83_bltz_ds_ex_test     #bltz ds ex
-    nop
-    jal n84_bltzal_ds_ex_test   #bltzal ds ex
-    nop
-    jal n85_bgezal_ds_ex_test   #bgezal ds ex
-    nop
-    jal n86_j_ds_ex_test        #j ds ex
-    nop
-    jal n87_jal_ds_ex_test      #jal ds ex
-    nop
-    jal n88_jr_ds_ex_test       #jr ds ex
-    nop
-    jal n89_jalr_ds_ex_test     #jalr ds ex
-    nop
-    jal n90_branch_prediction   #branch prediction
-    nop
-    jal n91_ds_cache_miss       #ds_cache_miss
-    nop
-    jal n92_cache_flush         #cache flush instr
+    jal n28_cache_flush         #cache flush instr
     nop
 	li t0, DADDR(0000)
 	sw t0, 0(t0)
-    jal n93_pref                #pref prefetch instructoin
+    jal n29_pref                #pref prefetch instructoin
     nop
 #ifdef HAS_TLB
-    jal n94_tlbwi               #tlbwi
+    jal n30_tlbwi               #tlbwi
     nop
-    jal n95_tlbwr               #tlbwr
+    jal n31_tlbwr               #tlbwr
     nop
 #else
 	addiu s3, s3, 2
 #endif
-    jal n96_ll_test             #ll test
-    nop
-    jal n97_sc_test             #ll test
-    nop
-    jal n98_madd_test           #madd test
-    nop
-    jal n99_maddu_test          #maddu test
-    nop
-    jal n100_msub_test          #msub test
-    nop
-    jal n101_msubu_test         #msubu test
-    nop
 
 test_end:
     LI  (s0, TEST_NUM)
