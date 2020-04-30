@@ -1,0 +1,70 @@
+#include <asm.h>
+#include <regdef.h>
+#include <inst_test.h>
+
+LEAF(n75_ext_test)
+    .set noreorder
+    addiu s0, s0 ,1
+    li  s2, 0x0
+###test inst
+    TEST_EXT(0x00000407, 0x101f5494, 18, 11)
+    TEST_EXT(0x00000403, 0x4386201c, 3, 12)
+    TEST_EXT(0x0001c4cb, 0x0e2659f8, 11, 21)
+    TEST_EXT(0x00000004, 0x4ebdcb4b, 28, 4)
+    TEST_EXT(0x000007dd, 0x4d7dd2b4, 12, 12)
+    TEST_EXT(0x00014316, 0x2ca18b07, 7, 17)
+    TEST_EXT(0x000001fc, 0x0fe71482, 19, 12)
+    TEST_EXT(0x000001d9, 0x04d9fb36, 5, 9)
+    TEST_EXT(0x0000034e, 0x35c69c97, 9, 12)
+    TEST_EXT(0x00001ff0, 0x2aefff0c, 4, 13)
+    TEST_EXT(0x0000003a, 0x3a2662d6, 24, 7)
+    TEST_EXT(0x00000181, 0x581eb3d0, 20, 10)
+    TEST_EXT(0x00000001, 0x0ad621d3, 13, 3)
+    TEST_EXT(0x00000001, 0x6f0b8cb3, 24, 1)
+    TEST_EXT(0x00000c85, 0x6cc85362, 12, 14)
+    TEST_EXT(0x00000000, 0x6a25ebf9, 19, 2)
+    TEST_EXT(0x00000004, 0x013e69cb, 22, 8)
+    TEST_EXT(0x00000085, 0x63c85094, 12, 9)
+    TEST_EXT(0x00000000, 0x45a8bb07, 3, 5)
+    TEST_EXT(0x00000006, 0x29437cd2, 15, 3)
+    TEST_EXT(0x00000324, 0x4233e48e, 5, 10)
+    TEST_EXT(0x000001e6, 0x3cc183dc, 21, 10)
+    TEST_EXT(0x0000012a, 0x3112552e, 9, 9)
+    TEST_EXT(0x00000003, 0x3dcb0f6a, 28, 4)
+    TEST_EXT(0x00000000, 0x09f92fc3, 30, 1)
+    TEST_EXT(0x00000000, 0x5e2d8768, 23, 2)
+    TEST_EXT(0x0000000d, 0x7ba83e34, 2, 4)
+    TEST_EXT(0x00000014, 0x0a436673, 23, 5)
+    TEST_EXT(0x00000001, 0x403a17f7, 30, 2)
+    TEST_EXT(0x00002761, 0x4ec246e5, 17, 14)
+    TEST_EXT(0x00000000, 0x7baf1356, 31, 1)
+    TEST_EXT(0x00000005, 0x571fd1e0, 28, 4)
+    TEST_EXT(0x000006a8, 0x249aa29f, 10, 13)
+    TEST_EXT(0x00000004, 0x7245df8a, 20, 5)
+    TEST_EXT(0x00000001, 0x0edf53ee, 23, 2)
+    TEST_EXT(0x00000000, 0x47e4d27e, 31, 1)
+    TEST_EXT(0x0000013e, 0x49f7e641, 19, 11)
+    TEST_EXT(0x00000e8e, 0x24ffa3bb, 6, 12)
+    TEST_EXT(0x00000001, 0x5dd60620, 30, 1)
+    TEST_EXT(0x05483541, 0x2a41aa09, 3, 29)
+    TEST_EXT(0x0000001a, 0x35328e82, 25, 7)
+    TEST_EXT(0x76d3b816, 0x76d3b816, 0, 32)
+    TEST_EXT(0x00000ccf, 0x333da43a, 18, 14)
+    TEST_EXT(0x00000006, 0x0d35f573, 25, 7)
+    TEST_EXT(0x000010eb, 0x10eb4cbc, 16, 16)
+    TEST_EXT(0x0000250f, 0x4a1e2663, 17, 15)
+    TEST_EXT(0x00001bf8, 0x37f0ab68, 17, 15)
+    TEST_EXT(0x00000000, 0x61a48528, 31, 1)
+    TEST_EXT(0x0020e24c, 0x20e24ccf, 8, 24)
+    TEST_EXT(0x00001eed, 0x3dda5e6d, 17, 15)
+    TEST_EXT(0x745a3a5b, 0x745a3a5b, 0, 32)
+    TEST_EXT(0x00000000, 0x3475095d, 31, 1)
+###detect exception
+    bne s2, zero, inst_error
+    nop
+###score ++
+    addiu s3, s3, 1
+### return
+    jr ra
+    nop
+END(n75_ext_test)

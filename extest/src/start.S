@@ -2,7 +2,9 @@
 #include <regdef.h>
 #include <cpu_cde.h>
 
-#define TEST_NUM 76
+#define TEST_NUM 101
+
+#define EXT_8TO16(t2, t3) \
 
 ##s0, number
 ##s1, number adress 
@@ -445,29 +447,85 @@ inst_test:
     nop
     jal n64_sh_test        #sh
     nop
-    jal n65_ll_test        #ll
+    jal n65_syscall_ex_test       #syscall
     nop
-	jal n66_sc_test        #sc
+    jal n66_break_ex_test       #break ex
     nop
-	jal n67_madd_test      #madd
+    jal n67_add_ov_ex_test      #add ov ex
     nop
-	jal n68_maddu_test     #maddu
+    jal n68_addi_ov_ex_test     #addi ov ex
     nop
-	jal n69_msub_test      #msub
+    jal n69_sub_ov_ex_test      #sub ov ex
     nop
-    jal n70_msubu_test     #msubu
+    jal n70_lw_adel_ex_test     #lw adel ex
     nop
-	jal n71_seb_test       #seb
+    jal n71_lh_adel_ex_test     #lh adel ex
     nop
-	jal n72_seh_test       #seh
+    jal n72_lhu_adel_ex_test    #lhu adel ex
     nop
-	jal n73_wsbh_test      #wsbh
+    jal n73_sw_ades_ex_test     #sw ades ex
     nop
-	jal n74_ins_test       #ins
+    jal n74_sh_ades_ex_test     #sh ades ex
     nop
-	jal n75_ext_test       #ext
+    jal n75_ft_adel_ex_test     #ft adel ex
     nop
-	jal n76_pref           #pref
+    jal n76_ri_ex_test          #ri ex
+    nop
+    jal n77_soft_int_ex_test    #soft int ex
+    nop
+    jal n78_beq_ds_ex_test      #beq ds ex
+    nop
+    jal n79_bne_ds_ex_test      #bne ds ex
+    nop
+    jal n80_bgez_ds_ex_test     #bgez ds ex
+    nop
+    jal n81_bgtz_ds_ex_test     #bgtz ds ex
+    nop
+    jal n82_blez_ds_ex_test     #blez ds ex
+    nop
+    jal n83_bltz_ds_ex_test     #bltz ds ex
+    nop
+    jal n84_bltzal_ds_ex_test   #bltzal ds ex
+    nop
+    jal n85_bgezal_ds_ex_test   #bgezal ds ex
+    nop
+    jal n86_j_ds_ex_test        #j ds ex
+    nop
+    jal n87_jal_ds_ex_test      #jal ds ex
+    nop
+    jal n88_jr_ds_ex_test       #jr ds ex
+    nop
+    jal n89_jalr_ds_ex_test     #jalr ds ex
+    nop
+    jal n90_branch_prediction   #branch prediction
+    nop
+    jal n91_ds_cache_miss       #ds_cache_miss
+    nop
+    jal n92_cache_flush         #cache flush instr
+    nop
+	li t0, DADDR(0000)
+	sw t0, 0(t0)
+    jal n93_pref                #pref prefetch instructoin
+    nop
+#ifdef HAS_TLB
+    jal n94_tlbwi               #tlbwi
+    nop
+    jal n95_tlbwr               #tlbwr
+    nop
+#else
+	addiu s3, s3, 2
+#endif
+    jal n96_ll_test             #ll test
+    nop
+    jal n97_sc_test             #ll test
+    nop
+    jal n98_madd_test           #madd test
+    nop
+    jal n99_maddu_test          #maddu test
+    nop
+    jal n100_msub_test          #msub test
+    nop
+    jal n101_msubu_test         #msubu test
     nop
 
 test_end:

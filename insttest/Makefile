@@ -1,3 +1,4 @@
 NAME := insttest
-CFLAGS := -march=mips32 -D_KERNEL -DHAS_TLB
+CFLAGS := -D_KERNEL
+CFLAGS += -march=mips32r2 -fno-pic -fno-plt
 include $(MIPS_TEST_HOME)/Makefile.compile
