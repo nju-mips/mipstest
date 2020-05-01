@@ -1476,3 +1476,31 @@ inst_error:
   bne t2, t1, inst_error;            \
   nop;
 
+#define TEST_ROTR(in, sa, ref) \
+  li t1, in;                   \
+  li v1, ref;                  \
+  rotr t0, t1, sa;             \
+  bne t0, v1, inst_error;      \
+  nop
+
+#define TEST_ROTRV(in, sa, ref) \
+  li t1, in;                    \
+  li t2, sa;                    \
+  li v1, ref;                   \
+  rotrv t0, t1, t2;             \
+  bne t0, v1, inst_error;       \
+  nop
+
+#define TEST_CLZ(in, out) \
+  li t0, in;              \
+  clz t1, t0;             \
+  li t2, out;             \
+  bne t1, t2, inst_error; \
+  nop;
+
+#define TEST_CLO(in, out) \
+  li t0, in;              \
+  clo t1, t0;             \
+  li t2, out;             \
+  bne t1, t2, inst_error; \
+  nop;

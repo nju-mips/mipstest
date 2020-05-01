@@ -2,7 +2,7 @@
 #include <regdef.h>
 #include <cpu_cde.h>
 
-#define TEST_NUM 77
+#define TEST_NUM 81
 
 ##s0, number
 ##s1, number adress 
@@ -470,6 +470,14 @@ inst_test:
 	jal n76_pref_test      #pref
     nop
 	jal n77_syscall_test   #pref
+    nop
+	jal n78_rotr_test      #rotr
+    nop
+	jal n79_rotrv_test     #rotrv
+    nop
+	jal n80_clo_test       #clo
+    nop
+	jal n81_clz_test       #clz
     nop
 
 test_end:
