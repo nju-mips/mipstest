@@ -445,10 +445,14 @@ inst_test:
     nop
     jal n64_sh_test        #sh
     nop
+#ifdef _HAS_LLSC
     jal n65_ll_test        #ll
     nop
 	jal n66_sc_test        #sc
     nop
+#else
+    addiu s3, s3, 2
+#endif
 	jal n67_madd_test      #madd
     nop
 	jal n68_maddu_test     #maddu
