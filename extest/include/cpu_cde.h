@@ -14,8 +14,8 @@
 
 #define GPIO_ADDR    0xb0000000
 
-#define HEAP_ADDR    0x81000000 // (16 M beyond MEM)
-#define HEAP_ADDR_HI 0x8100
+#define HEAP_ADDR    0x800f0000 // (ddr)
+#define HEAP_ADDR_HI 0x800f
 
 #define CatImpl(a, b) a ## b
 #define Cat(a, b) CatImpl(a, b)
