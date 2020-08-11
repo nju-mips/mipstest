@@ -18,17 +18,30 @@ _start:
 	nop
 
 .org 0x200
+    mfc0 k0, c0_cause
+    nop
+    mfc0 k0, c0_status
+    nop
     eret
     nop
 
 .org 0x380
+    mfc0 k0, c0_cause
+    nop
+    mfc0 k0, c0_status
+    nop
     eret
     nop
 
 main:
 	.set noreorder
-    lui s0, 0          ## initial run number
+    lui s0, 0           ## initial run number
 	li  s3, 0
+    lui t0,0xF000
+    mfc0 t1, c0_status
+    or t1, t0, t1
+    mtc0 t1, c0_status  # enable fpu
+    nop
 
 inst_test:
     jal n1_mfc1_test    # mfc1
