@@ -22,6 +22,9 @@ _start:
     nop
     mfc0 k0, c0_status
     nop
+    mfc0 k0, c0_epc
+    addiu k0, k0, 4
+    mtc0 k0, c0_epc
     eret
     nop
 
@@ -30,6 +33,9 @@ _start:
     nop
     mfc0 k0, c0_status
     nop
+    mfc0 k0, c0_epc
+    addiu k0, k0, 4
+    mtc0 k0, c0_epc
     eret
     nop
 
@@ -75,6 +81,14 @@ inst_test:
     jal n15_sqrt_s_test  # sqrt.s
     nop
     jal n16_sqrt_d_test  # sqrt.d
+    nop
+    jal n17_mov_s_test   # mov.s
+    nop
+    jal n18_mov_d_test   # mov.d
+    nop
+    jal n19_neg_s_test   # neg.s
+    nop
+    jal n20_neg_d_test   # neg.d
     nop
 
 test_end:
