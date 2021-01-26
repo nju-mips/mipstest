@@ -18,17 +18,36 @@ _start:
 	nop
 
 .org 0x200
+    mfc0 k0, c0_cause
+    nop
+    mfc0 k0, c0_status
+    nop
+    mfc0 k0, c0_epc
+    addiu k0, k0, 4
+    mtc0 k0, c0_epc
     eret
     nop
 
 .org 0x380
+    mfc0 k0, c0_cause
+    nop
+    mfc0 k0, c0_status
+    nop
+    mfc0 k0, c0_epc
+    addiu k0, k0, 4
+    mtc0 k0, c0_epc
     eret
     nop
 
 main:
 	.set noreorder
-    lui s0, 0          ## initial run number
+    lui s0, 0           ## initial run number
 	li  s3, 0
+    lui t0,0xF000
+    mfc0 t1, c0_status
+    or t1, t0, t1
+    mtc0 t1, c0_status  # enable fpu
+    nop
 
 inst_test:
     jal n1_mfc1_test    # mfc1
@@ -62,6 +81,14 @@ inst_test:
     jal n15_sqrt_s_test  # sqrt.s
     nop
     jal n16_sqrt_d_test  # sqrt.d
+    nop
+    jal n17_mov_s_test   # mov.s
+    nop
+    jal n18_mov_d_test   # mov.d
+    nop
+    jal n19_neg_s_test   # neg.s
+    nop
+    jal n20_neg_d_test   # neg.d
     nop
 
 test_end:
